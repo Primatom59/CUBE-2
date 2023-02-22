@@ -88,7 +88,7 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-8">
-                            <?php require 'table/graph.php' ;?>
+                            <?php require 'table/gpt.php' ;?>
                         </div>
                     </div>
                     <div class="row">

@@ -1,3 +1,17 @@
+<?php
+
+$url = 'http://137.135.245.31:3000/api/v1/informations/1';
+$data = file_get_contents($url);
+
+// Convertir les données JSON en tableau PHP
+$data_array = json_decode($data, true);
+
+// Afficher les données
+
+?>
+
+
+
 <div class="col-12 ">
 							<div class="card">
 								<div class="card-header">
@@ -17,7 +31,8 @@
 		document.addEventListener("DOMContentLoaded", function() {
 			// Area chart
 			var options = {
-				chart: {
+				<?php foreach ($data_array['data'] as $row) : ?>
+					chart: {
 					height: 350,
 					type: "area",
 				},
@@ -29,22 +44,22 @@
 				},
 				series: [{
 					name: "series1",
-					data: [31, 40, 28, 51, 42, 109, 100]
+					data: [<?= $row['informations_type_humidité'] ?>]
 				}, {
 					name: "series2",
-					data: [11, 32, 45, 32, 34, 52, 41]
+					data: [<?= $row['informations_type_température'] ?>]
 				}],
 				xaxis: {
 					type: "datetime",
-					categories: ["2018-09-19T00:00:00", "2018-09-19T01:30:00", "2018-09-19T02:30:00", "2018-09-19T03:30:00", "2018-09-19T04:30:00", "2018-09-19T05:30:00",
-						"2018-09-19T06:30:00"
-					],
+					categories: <?=  $row['date_information'] ?>
+					,
 				},
 				tooltip: {
 					x: {
 						format: "dd/MM/yy HH:mm"
 					},
 				}
+				<?php endforeach ?>
 			}
 			var chart = new ApexCharts(
 				document.querySelector("#apexcharts-area"),
