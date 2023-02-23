@@ -153,7 +153,7 @@
                 <img src="img/avatars/avatar-1.webp" class="avatar img-fluid rounded-circle me-1" alt="Chris Wood" /> 
               </a>
 							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item" href="#">Sign out</a>
+								<a class="dropdown-item" href="/logout">Sign out</a>
 							</div>
 						</li>
 					</ul>
