@@ -1,14 +1,15 @@
 <?php
 
+
 $url = 'http://137.135.245.31:3000/api/v1/informations/1';
 $data = file_get_contents($url);
 
 // Convertir les données JSON en tableau PHP
 $data_array = json_decode($data, true);
 
-// Afficher les données
+ ?>
 
-?>
+
 
 <!DOCTYPE html>
 <html>

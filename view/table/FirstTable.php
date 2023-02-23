@@ -19,7 +19,7 @@ $data_array = json_decode($data, true);
 
 <body>
 	
-<canvas id="myChart"></canvas>
+
 
 
 					<div class="card flex-fill">

@@ -1,3 +1,22 @@
+<!-- Inclure jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Inclure le JavaScript de Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<?php
+
+
+$url = 'http://137.135.245.31:3000/api/v1/informations/1';
+$data = file_get_contents($url);
+
+// Convertir les données JSON en tableau PHP
+$data_array = json_decode($data, true);
+$dates = array();
+$temp = array();
+$hum = array();
+?>
+
 <main class="content">
                 <div class="container-fluid p-0">
 
@@ -8,29 +27,32 @@
 
                         <div class="col-auto ms-auto text-end mt-n1">
 
-                            <div class="dropdown me-2 d-inline-block">
-                                <a class="btn btn-light bg-white shadow-sm dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-display="static">
-        <i class="align-middle mt-n1" data-feather="calendar"></i> Today
-      </a>
+                        <div class="dropdown me-2 d-inline-block">
+  <button class="btn btn-light bg-white shadow-sm dropdown-toggle time-dropdown" type="button" id="time-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="align-middle mt-n1" data-feather="calendar"></i><span id="selected-time"> Aujourd'hui</span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="time-dropdown">
+    <li><a class="dropdown-item" href="#" data-value="today">Aujourd'hui</a></li>
+    <li><a class="dropdown-item" href="#" data-value="all-time">All</a></li>
+  </ul>
+</div>
 
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <h6 class="dropdown-header">Settings</h6>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Separated link</a>
-                                </div>
-                            </div>
-
-                            <button class="btn btn-primary shadow-sm">
-      <i class="align-middle" data-feather="filter">&nbsp;</i>
-    </button>
-                            <button class="btn btn-primary shadow-sm">
+                            <button class="btn btn-primary shadow-sm" onclick="location.reload()">
       <i class="align-middle" data-feather="refresh-cw">&nbsp;</i>
     </button>
                         </div>
                     </div>
+                    <?php
+		                    foreach ($data_array['data'] as $row) {
+			                    array_push($dates, $row['date_information']);
+			                    array_push($temp, $row['informations_type_température']);
+			                    array_push($hum, $row['informations_type_humidité']);
+		                    }
+                            $last_hum = 0;
+                            $last_temp = 0;
+                            $last_temp = end($temp);
+		                    $last_hum = end($hum);
+		                    ?>
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <div class="card illustration flex-fill">
@@ -38,12 +60,20 @@
                                     <div class="row g-0 w-100">
                                         <div class="col-6">
                                             <div class="illustration-text p-3 m-1">
-                                                <h4 class="illustration-text">Welcome Back</h4>
-                                                <p class="mb-0">AppStack Dashboard</p>
+                                                <h4 class="illustration-text">Méteo du jour</h4>
+                                                <p class="mb-0">Aujourd'hui : </p>
                                             </div>
                                         </div>
                                         <div class="col-6 align-self-end text-end">
-                                            <img src="img/illustrations/customer-support.png" alt="Customer Support" class="img-fluid illustration-img">
+                                        <?php if($last_hum <=20): ?>
+                                            <i class="align-middle text-danger" data-feather="sun" style="width: 106px; height: 160px; margin-right: 40px"></i>
+                                            
+                                            <?php elseif($last_hum >20 and $last_hum <80): ?>
+                                                 <i class="align-middle text-danger" data-feather="cloud" style="width: 106px; height: 160px;margin-right: 40px"></i>
+                                            
+                                            <?php else : ?>
+                                                <i class="align-middle text-danger" data-feather="cloud-rain" style="width: 106px; height: 160px; margin-right: 40px"></i>
+                                            <?php endif ?>
                                         </div>
                                     </div>
                                 </div>
@@ -52,10 +82,9 @@
                                 <div class="card-body py-4">
                                     <div class="d-flex align-items-start">
                                         <div class="flex-grow-1">
-                                            <h3 class="mb-2">2%</h3>
+                                            <h3 class="mb-2"><?= "$last_hum" ?></h3>
                                             <p class="mb-2">Humidité</p>
                                             <div class="mb-0">
-                                                <span class="badge badge-soft-success me-2"> +5.35% </span>
                                                 <span class="text-muted">depuis la dernière lecture</span>
                                             </div>
                                         </div>
@@ -71,10 +100,9 @@
                                 <div class="card-body py-4">
                                     <div class="d-flex align-items-start">
                                         <div class="flex-grow-1">
-                                            <h3 class="mb-2">10°</h3>
+                                            <h3 class="mb-2"><?= "$last_temp" . "°C" ?></h3>
                                             <p class="mb-2">Température</p>
                                             <div class="mb-0">
-                                                <span class="badge badge-soft-danger me-2"> -4.25% </span>
                                                 <span class="text-muted">depuis la dernière lecture</span>
                                             </div>
                                         </div>
@@ -233,6 +261,62 @@
             });
         });
     </script>
+    <script>
+  const timeDropdownButton = document.getElementById('time-dropdown');
+  const selectedTimeSpan = document.getElementById('selected-time');
+
+  document.querySelectorAll('#time-dropdown + .dropdown-menu a').forEach(item => {
+    item.addEventListener('click', event => {
+      event.preventDefault();
+
+      const selectedTime = event.target.dataset.value;
+
+      if (selectedTime === 'all-time') {
+        selectedTimeSpan.textContent = ' All';
+      } else {
+        selectedTimeSpan.textContent = ' Aujourd\'hui';
+      }
+    });
+  });
+</script>
+
+<script>$(document).readyfunction() 
+	// Écouter les événements de clic sur les éléments de menu déroulant
+	$('.time-dropdown a').click(function(e) {
+		e.preventDefault();
+
+		// Récupérer la valeur de l'option de temps sélectionnée
+		var value = $(this).data('value');
+
+		// Mettre à jour l'affichage pour montrer quelle option est sélectionnée
+		$('#selected-time').text($(this).text());
+
+		// Mettre à jour le graphique en fonction de l'option de temps sélectionnée
+		updateChart(value);
+	});
+
+	// Fonction pour mettre à jour le graphique en fonction de l'option de temps sélectionnée
+	function updateChart(time) 
+		var dates = [];
+		var temp = [];
+		var hum = [];
+
+		// Récupérer les données du graphique
+		$('.chart-data').eachfunction() 
+			var date = $(this).data('date');
+			var tempVal = $(this).data('temp');
+			var humVal = $(this).data('hum');
+
+			// Ajouter les données à des tableaux en fonction de l'option de temps sélectionnée
+			if (time === 'today') {
+				if (date === '<?php echo date("Y-m-d"); ?>') {
+					dates.push(date);
+					temp.push(tempVal);
+					hum.push(humVal);
+				}
+			} else if (time === 'all-time') 
+				dates.push(date);
+</script>
 
 </body>
 
