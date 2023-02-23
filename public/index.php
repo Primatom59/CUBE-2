@@ -11,9 +11,9 @@ $router = new App\Router(dirname(__DIR__) . '/view');
 $router
     //connexion
     ->get('/logout', 'auth/logout', 'logout')
-    ->match('/login', 'auth/login', 'login')
+    ->match('/login', 'auth/login', 'login_sans')
     ->match('/', 'Cube2', 'first')
-    ->match('/sign-up', 'auth/sign-up', 'sign-up')
+    ->match('/sign-up', 'auth/sign-up', 'sign-up_sans')
     ->match('/FirstTable', 'table/FirstTable', 'FirstTable')
     ->match('/SecondTable', 'table/SecondTable', 'SecondTable')
     ->match('/graph', 'table/graph', 'graphe')

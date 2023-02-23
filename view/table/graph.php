@@ -40,16 +40,16 @@ $data_array = json_decode($data, true);
 			data: {
 				labels: <?php echo json_encode($dates); ?>,
 				datasets: [{
-					label: 'Température',
+					label: 'Humidité',
 					data: <?php echo json_encode($temp); ?>,
 					fill: false,
-					borderColor: 'rgb(255, 0, 0)',
+					borderColor: 'rgb(0, 27, 255)',
 					lineTension: 0.1
 				}, {
-					label: 'Humidité',
+					label: 'Température',
 					data: <?php echo json_encode($hum); ?>,
 					fill: false,
-					borderColor: 'rgb(0, 27, 255)',
+					borderColor: 'rgb(255, 0, 0)',
 					lineTension: 0.1
 				}]
 				

@@ -1,8 +1,13 @@
-<?php 
+<?php
 session_start();
-if(!isset($_SESSION['user'])      ){
-    header($router->url('login'));
-} ?> 
+if(session_status() == PHP_SESSION_NONE){
+    session_start();
+}
+if(!isset($_SESSION['auth'])){
+    header('Location: ../login');
+    exit();
+}
+?>
 
 
 <!DOCTYPE html>
