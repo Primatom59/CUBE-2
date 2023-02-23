@@ -65,10 +65,10 @@ $hum = array();
                                             </div>
                                         </div>
                                         <div class="col-6 align-self-end text-end">
-                                        <?php if($last_hum <=20): ?>
+                                        <?php if($last_temp <=20): ?>
                                             <i class="align-middle text-danger" data-feather="sun" style="width: 106px; height: 160px; margin-right: 40px"></i>
                                             
-                                            <?php elseif($last_hum >20 and $last_hum <80): ?>
+                                            <?php elseif($last_temp >20 and $last_temp <80): ?>
                                                  <i class="align-middle text-danger" data-feather="cloud" style="width: 106px; height: 160px;margin-right: 40px"></i>
                                             
                                             <?php else : ?>
