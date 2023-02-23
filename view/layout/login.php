@@ -1,52 +1,104 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+if(!empty($_POST) && !empty($_POST['username']) && !empty($_POST['password'])){
+$username = $_POST['username'];
+$psw = md5($_POST['password']);
 
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="Responsive Bootstrap 5 Admin &amp; Dashboard Template">
-	<meta name="author" content="Bootlab">
 
-	<title>Projet Cube</title>
+$url = "http://137.135.245.31:3000/api/v1/users/connection/$username/$psw";
+//echo $url;
+$data = file_get_contents($url);
+//var_dump($data);
+// Convertir les données JSON en tableau PHP
+$data_array = json_decode($data, true);
 
-	<link rel="canonical" href="https://appstack.bootlab.io/pages-sign-in.html" />
-	<link rel="shortcut icon" href="img/favicon.ico">
+if(isset($data_array['data'][0]['utilisateur'])){
+	session_start();
+	$_SESSION["user"] = $_POST['username'];
+	$_SESSION['flash']['success'] = 'Connecté';
+	header('Location: '. $router->url('first'));
+	exit();
+}else{
+	session_start();
+	$_SESSION['flash']['danger'] = 'Incorrect username or password';
+}
+}
+/*
+if(!empty($_POST) && !empty($_POST['username']) && !empty($_POST['password'])){
 
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  $pdo = Connection::getPDO();
+    $req = $pdo->prepare('SELECT * FROM users WHERE (utilisateur = :username OR mail = :username) ');
+    $req->execute(['username' => $_POST['username']]);
+    $user = $req->fetch();
+    if($user == null){
+      session_start();
+        $_SESSION['flash']['danger'] = 'Identifiant inconnu';
+    }elseif(password_verify($_POST['password'], $user->mdp)){
+        session_start();
+        $_SESSION['auth'] = $user;
+        $_SESSION['flash']['success'] = 'Connecté';
+        header('Location: '. $router->url('first'));
+        exit();
+    }else{
+        session_start();
+        $_SESSION['flash']['danger'] = 'Incorrect username or password';
+    }
+}*/
+?>
+<?php
+    if(session_status() == PHP_SESSION_NONE){
+session_start(); 
+    }
 
-	
-	<link class="js-stylesheet" href="../css/light.css" rel="stylesheet">
-	
 
-  </head>
+?>
 
-<body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">
-<?php if(isset($_SESSION['flash'])):?>
-        <?php foreach($_SESSION['flash'] as $type => $message): ?>
+<div class="main d-flex justify-content-center w-100">
+		<main class="content d-flex p-0">
+			<div class="container d-flex flex-column">
+				<div class="row h-100">
+					<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+						<div class="d-table-cell align-middle">
 
-        <div style="margin: 12px 12px; text-align:center" class="btn btnalert btn-<?= $type; ?> alert-dismissible text-white" role="alert" data-dismiss="alert" aria-label="Close" >
+							<div class="text-center mt-4">
+								<h1 class="h2">Content de vous revoir</h1>
+								<p class="lead">
+									connectez-vous à votre compte pour continuer
+								</p>
+							</div>
 
-                                            <div class="alert-message">
-                                            <?= $message; ?>
-                                            </div>
-                                        </div>
+							<div class="card">
+								<div class="card-body">
+									<div class="m-sm-4">
+										<div class="text-center">
+											<img src="img/avatars/avatar-1.webp" alt="profil picture" class="img-fluid rounded-circle" width="132" height="132" />
+										</div>
+										<form action="" method="post">
+											<div class="mb-3">
+												<label class="form-label">Email/Nom d'utilisateur</label>
+												<input class="form-control form-control-lg" type="text" name="username"  />
+											</div>
+											<div class="mb-3">
+												<label class="form-label">Mot de passe</label>
+												<input class="form-control form-control-lg" type="password" name="password"  required/>
+												<small>
+            <a href="pages-reset-password.html">Mot de passe oublié?</a>
+          </small>
+											</div>
+											<div class="text-center mt-3">
+												<button type="submit" class="btn btn-lg btn-primary">Se connecter</button>
+											</div>
+										</form>
+											<div class="text-center mt-3">
+												
+												<a href="/sign-up"><button class="btn btn-lg btn-primary">Se créer un compte</button></a>
+											</div>
+									</div>
+								</div>
+							</div>
 
-                                        <?php endforeach;?>
-        <?php unset($_SESSION['flash']); ?>
-        <?php endif;?>
-
-        <script>window.setTimeout(function() {
-    $(".btnalert").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove(); 
-    });
-}, 3000);
-</script>
-
-	<?= $content ?>
-
-	<script src="js/app.js"></script>
-
-</body>
-
-</html>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
