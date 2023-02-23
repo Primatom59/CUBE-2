@@ -1,3 +1,9 @@
+<?php 
+session_start();
+if(!isset($_SESSION['user'])      ){
+    header($router->url('login'));
+} ?> 
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -66,7 +72,6 @@
 						<ul id="auth" class="sidebar-dropdown list-unstyled collapse " data-bs-parent="#sidebar">
 							<li class="sidebar-item"><a class="sidebar-link" href="/login">Sign In</a></li>
 							<li class="sidebar-item"><a class="sidebar-link" href="/sign-up">Sign Up</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-reset-password.html">Reset Password</a></li>
 						</ul>
 					</li>
 				</ul>
