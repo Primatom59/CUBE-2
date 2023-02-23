@@ -80,18 +80,11 @@ session_start();
 											<div class="mb-3">
 												<label class="form-label">Mot de passe</label>
 												<input class="form-control form-control-lg" type="password" name="password"  required/>
-												<small>
-            <a href="pages-reset-password.html">Mot de passe oublié?</a>
-          </small>
 											</div>
 											<div class="text-center mt-3">
 												<button type="submit" class="btn btn-lg btn-primary">Se connecter</button>
 											</div>
 										</form>
-											<div class="text-center mt-3">
-												
-												<a href="/sign-up"><button class="btn btn-lg btn-primary">Se créer un compte</button></a>
-											</div>
 									</div>
 								</div>
 							</div>
