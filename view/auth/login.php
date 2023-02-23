@@ -1,7 +1,28 @@
 <?php
-use App\Connection;
-$pdo = Connection::getPDO();
+if(!empty($_POST) && !empty($_POST['username']) && !empty($_POST['password'])){
+$username = $_POST['username'];
+$psw = md5($_POST['password']);
 
+
+$url = "http://137.135.245.31:3000/api/v1/users/connection/$username/$psw";
+//echo $url;
+$data = file_get_contents($url);
+//var_dump($data);
+// Convertir les données JSON en tableau PHP
+$data_array = json_decode($data, true);
+
+if(isset($data_array['data'][0]['utilisateur'])){
+	session_start();
+	$_SESSION["user"] = $_POST['username'];
+	$_SESSION['flash']['success'] = 'Connecté';
+	header('Location: '. $router->url('first'));
+	exit();
+}else{
+	session_start();
+	$_SESSION['flash']['danger'] = 'Incorrect username or password';
+}
+}
+/*
 if(!empty($_POST) && !empty($_POST['username']) && !empty($_POST['password'])){
 
   $pdo = Connection::getPDO();
@@ -21,7 +42,7 @@ if(!empty($_POST) && !empty($_POST['username']) && !empty($_POST['password'])){
         session_start();
         $_SESSION['flash']['danger'] = 'Incorrect username or password';
     }
-}
+}*/
 ?>
 <?php
     if(session_status() == PHP_SESSION_NONE){
