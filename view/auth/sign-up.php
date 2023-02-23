@@ -57,9 +57,9 @@ if(!empty($_POST) && !empty($_POST['user']) && !empty($_POST['password'])){
 						<div class="d-table-cell align-middle">
 
 							<div class="text-center mt-4">
-								<h1 class="h2">Get started</h1>
+								<h1 class="h2">Créer un compte</h1>
 								<p class="lead">
-									Start creating the best possible user experience for you customers.
+									Commencez à créer la meilleure expérience utilisateur possible pour vos clients.
 								</p>
 							</div>
 
