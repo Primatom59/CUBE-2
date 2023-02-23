@@ -85,6 +85,9 @@ session_start();
 												<button type="submit" class="btn btn-lg btn-primary">Se connecter</button>
 											</div>
 										</form>
+										<div class="text-center mt-3">
+                                            <a href="/sign-up"><button class="btn btn-lg btn-primary">Se créer un compte</button></a>
+                                        </div>
 									</div>
 								</div>
 							</div>
