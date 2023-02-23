@@ -82,7 +82,7 @@ $hum = array();
                                 <div class="card-body py-4">
                                     <div class="d-flex align-items-start">
                                         <div class="flex-grow-1">
-                                            <h3 class="mb-2"><?= "$last_hum" ?></h3>
+                                            <h3 class="mb-2"><?= "$last_hum" . "%" ?></h3>
                                             <p class="mb-2">Humidité</p>
                                             <div class="mb-0">
                                                 <span class="text-muted">depuis la dernière lecture</span>

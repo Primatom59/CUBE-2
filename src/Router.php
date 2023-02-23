@@ -56,7 +56,7 @@ class Router {
         require $this->viewPath . DIRECTORY_SEPARATOR . $view . '.php';
         $content = ob_get_clean();
        
-        if($name === "login"){
+        if(str_contains($name, '_sans')){
             require $this->viewPath . DIRECTORY_SEPARATOR . 'layout/login.php';
         }
         else{

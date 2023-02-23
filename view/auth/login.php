@@ -13,7 +13,7 @@ $data_array = json_decode($data, true);
 
 if(isset($data_array['data'][0]['utilisateur'])){
 	session_start();
-	$_SESSION["user"] = $_POST['username'];
+	$_SESSION['auth'] = $_POST['username'];
 	$_SESSION['flash']['success'] = 'Connecté';
 	header('Location: '. $router->url('first'));
 	exit();
@@ -80,6 +80,9 @@ session_start();
 											<div class="mb-3">
 												<label class="form-label">Mot de passe</label>
 												<input class="form-control form-control-lg" type="password" name="password"  required/>
+												<small>
+            <a href="pages-reset-password.html">Mot de passe oublié?</a>
+          </small>
 											</div>
 											<div class="text-center mt-3">
 												<button type="submit" class="btn btn-lg btn-primary">Se connecter</button>

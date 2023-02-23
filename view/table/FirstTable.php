@@ -39,7 +39,6 @@ $data_array = json_decode($data, true);
 						<table id="datatables-reponsive" class="table table-striped my-0">
 							<thead>
 								<tr>
-									<th>Nom capteurs</th>
 									<th class="d-none d-xl-table-cell">Date du relevé</th>
 									<th class="d-none d-xl-table-cell">Température</th>
 									<th class="d-none d-xl-table-cell">Humidité</th>
@@ -48,7 +47,6 @@ $data_array = json_decode($data, true);
 							<tbody>
 								<?php foreach ($data_array['data'] as $row) :?>
 									<tr>
-										<td></td>
 										<td><?= $row['date_information'] ?></td>
 										<td><?= $row['informations_type_humidité'] ?></td>
 										<td><?= $row['informations_type_température'] ?></td>
