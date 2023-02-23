@@ -54,7 +54,6 @@
 						<ul id="dashboards" class="sidebar-dropdown list-unstyled collapse show" data-bs-parent="#sidebar">
 							<li class="sidebar-item active"><a class="sidebar-link" href="/">Default</a></li>
 							<li class="sidebar-item"><a class="sidebar-link" href="FirstTable">Premier tableau de relevés</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="SecondTable">Second tableau de relevés</a></li>
 							<li class="sidebar-item"><a class="sidebar-link" href="graph">Graphique</a></li>
 						</ul>
 					</li>

@@ -1,70 +1,69 @@
 <?php
 
+
 $url = 'http://137.135.245.31:3000/api/v1/informations/1';
 $data = file_get_contents($url);
 
 // Convertir les données JSON en tableau PHP
 $data_array = json_decode($data, true);
 
-// Afficher les données
-
-?>
+ ?>
 
 
 
-<div class="col-12 ">
-							<div class="card">
-								<div class="card-header">
-									<h5 class="card-title">Area Chart</h5>
-									<h6 class="card-subtitle text-muted">Area charts are used to represent quantitative variations.</h6>
-								</div>
-								<div class="card-body">
-									<div class="chart w-100">
-										<div id="apexcharts-area"></div>
-									</div>
-								</div>
-							</div>
-						</div>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Exemple de graphique avec Chart.js</title>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+	<canvas id="myChart"></canvas>
 
+	<script>
+		// Récupération des données depuis le tableau PHP
+		<?php
+		$dates = array();
+		$temp = array();
+		$hum = array();
+		foreach ($data_array['data'] as $row) {
+			array_push($dates, $row['date_information']);
+			array_push($temp, $row['informations_type_température']);
+			array_push($hum, $row['informations_type_humidité']);
+		}
+		?>
 
-						<script>
-		document.addEventListener("DOMContentLoaded", function() {
-			// Area chart
-			var options = {
-				<?php foreach ($data_array['data'] as $row) : ?>
-					chart: {
-					height: 350,
-					type: "area",
-				},
-				dataLabels: {
-					enabled: false
-				},
-				stroke: {
-					curve: "smooth"
-				},
-				series: [{
-					name: "series1",
-					data: [<?= $row['informations_type_humidité'] ?>]
+		// Création du graphique
+		var ctx = document.getElementById('myChart').getContext('2d');
+		var myChart = new Chart(ctx, {
+			type: 'line',
+			data: {
+				labels: <?php echo json_encode($dates); ?>,
+				datasets: [{
+					label: 'Température',
+					data: <?php echo json_encode($temp); ?>,
+					fill: false,
+					borderColor: 'rgb(255, 0, 0)',
+					lineTension: 0.1
 				}, {
-					name: "series2",
-					data: [<?= $row['informations_type_température'] ?>]
-				}],
-				xaxis: {
-					type: "datetime",
-					categories: <?=  $row['date_information'] ?>
-					,
-				},
-				tooltip: {
-					x: {
-						format: "dd/MM/yy HH:mm"
-					},
+					label: 'Humidité',
+					data: <?php echo json_encode($hum); ?>,
+					fill: false,
+					borderColor: 'rgb(0, 27, 255)',
+					lineTension: 0.1
+				}]
+				
+			},
+			options: {
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: true
+						}
+					}]
 				}
-				<?php endforeach ?>
 			}
-			var chart = new ApexCharts(
-				document.querySelector("#apexcharts-area"),
-				options
-			);
-			chart.render();
 		});
 	</script>
+</body>
+</html>
